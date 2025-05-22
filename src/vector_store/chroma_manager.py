@@ -1,3 +1,18 @@
+
+# ArchitecturalRAGSystem/src/vector_store/chroma_manager.py
+try:
+    # Attempt to import and prime the pysqlite3 library if available
+    import pysqlite3
+    import sys
+    sys.modules['sqlite3'] = pysqlite3
+    print("ChromaManager: Successfully overrided sqlite3 with pysqlite3.")
+except ImportError:
+    print("ChromaManager: pysqlite3 not found, will use system's sqlite3.")
+    pass # Fallback to system sqlite3 if pysqlite3-binary is not there or fails
+except AttributeError: # Handle cases where sys.modules.pop might fail if 'pysqlite3' wasn't the one loaded
+    print("ChromaManager: AttributeError during pysqlite3 monkeypatch. System sqlite3 will be used.")
+    pass
+
 # ArchitecturalRAGSystem/src/vector_store/chroma_manager.py
 import chromadb
 from chromadb.api.models.Collection import Collection as ChromaCollection # For type hinting
